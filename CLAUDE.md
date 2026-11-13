@@ -6,12 +6,12 @@ The owner is **Jialu Xu**, the batch representative, who also gives the Graduati
 
 ## Files
 
-| File | What it is |
-|---|---|
-| `programme.html` | **Source of truth.** All the code (CSS, HTML and JS) in one file, with no `<!doctype>`, `<head>` or `<body>` wrapper. Edit this file. |
-| `RENight-2026.html` | The show file to run on the night. It is `programme.html` wrapped in a page skeleton. Rebuild it after every edit (see below). |
-| `rsigma.svg` | The REP "R–Σ" logo. The same paths are inlined in the code as `#mark`. |
-| `README.md` | Operator notes and keys. |
+| File                | What it is                                                                                                                            |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `programme.html`    | **Source of truth.** All the code (CSS, HTML and JS) in one file, with no `<!doctype>`, `<head>` or `<body>` wrapper. Edit this file. |
+| `RENight-2026.html` | The show file to run on the night. It is `programme.html` wrapped in a page skeleton. Rebuild it after every edit (see below).        |
+| `rsigma.svg`        | The REP "R–Σ" logo. The same paths are inlined in the code as `#mark`.                                                                |
+| `README.md`         | Operator notes and keys.                                                                                                              |
 
 To rebuild the show file from the source:
 
@@ -68,14 +68,14 @@ The show has no build step, no dependencies and no framework: plain ES5-style Ja
   3. Opening Address (Prof Gan Chee Lip)
   4. Welcome Speech (Prof Lalit Goel)
   5. Dinner board
-  6. R13 Band, set 1
+  6. Jamband, set 1
   7. R12 Game One (15 min)
   8. Lucky Draw Round 1 (prizes 10→6)
   9. R12 Game Two (20 min)
   10. Montage (video)
   11. Lucky Draw Round 2 (prizes 5→1)
   12. Graduation Speech
-  13. R13 Band Finale, set 2
+  13. Jamband Finale, set 2
   14. Final ("Last Call")
   15. End
 - **The lucky draw** takes 3 steps per prize: sealed → reveal (`revealItem`) → draw (`runDraw`). The draw is a split-flap name spin. Picks use `crypto.getRandomValues`, and winners are excluded from later draws (`pool()`). A results board follows the last prize.
@@ -98,23 +98,23 @@ The show has no build step, no dependencies and no framework: plain ES5-style Ja
 
 ## Operator keys
 
-| Key | Action |
-|---|---|
-| → / PageDown / click | Next |
-| ← / PageUp | Back |
-| Space | Start/stop the game timer, or mark the next song as playing |
-| F | Fullscreen |
-| B | Blank the stage (on band scenes, opens the visualiser) |
-| V | Mic on/off |
-| M | Sound on/off |
-| R | Redraw the current prize |
-| ] / [ | Running late, plus or minus 5 minutes |
-| G | Navigator: jump to any scene or step |
-| S | Setup: pre-show check, start time, names, prizes, set lists, prize photos, montage video |
-| D | Fonts and tuning: pairing, dither size, rehearsal, late slider, closing scene |
-| H | Help |
-| 0 0 | Restart at the countdown |
-| 9 9 | Jump to the end |
+| Key                  | Action                                                                                   |
+| -------------------- | ---------------------------------------------------------------------------------------- |
+| → / PageDown / click | Next                                                                                     |
+| ← / PageUp           | Back                                                                                     |
+| Space                | Start/stop the game timer, or mark the next song as playing                              |
+| F                    | Fullscreen                                                                               |
+| B                    | Blank the stage (on band scenes, opens the visualiser)                                   |
+| V                    | Mic on/off                                                                               |
+| M                    | Sound on/off                                                                             |
+| R                    | Redraw the current prize                                                                 |
+| ] / [                | Running late, plus or minus 5 minutes                                                    |
+| G                    | Navigator: jump to any scene or step                                                     |
+| S                    | Setup: pre-show check, start time, names, prizes, set lists, prize photos, montage video |
+| D                    | Fonts and tuning: pairing, dither size, rehearsal, late slider, closing scene            |
+| H                    | Help                                                                                     |
+| 0 0                  | Restart at the countdown                                                                 |
+| 9 9                  | Jump to the end                                                                          |
 
 The owner uses a Mac with no Home key. The dev panels (S, D, G, H) stay in by request.
 
@@ -127,6 +127,7 @@ await pg.evaluate("busy=false;pos={s:7,k:0};show(pos,1)")   # Lucky Draw Round 1
 ```
 
 Also:
+
 - Check JS syntax before shipping: `new Function(scriptBody)`.
 - Watch `pageerror`.
 - Timers in scenes must be registered with `onClean` / `runCleanups`, or guarded with a null check. Re-rendering a scene while its old timeouts are pending caused a null-element bug on the dinner board.
@@ -134,6 +135,7 @@ Also:
 ## State at handover (11 Nov 2026)
 
 Done and approved:
+
 - Monolith and departure-board direction
 - Countdown that holds at 00:00 and then reads "Please take your seats."
 - Running-late offset
@@ -147,6 +149,7 @@ Done and approved:
 - Navigator
 
 Known loose ends:
+
 - Fonts aren't embedded; this is the biggest risk if the venue laptop is offline.
 - Long names get truncated in the strip, e.g. "LUCKY DRAW, ROU…".
 - The montage video must be added via Setup in the **local file**, on the show laptop, before the event. Prize photos are built in.
