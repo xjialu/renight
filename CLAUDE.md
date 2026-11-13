@@ -24,6 +24,8 @@ The show has no build step, no dependencies and no framework: plain ES5-style Ja
 ## Design rules (from the owner; keep to them)
 
 - **Classy, modern, techy, elite.** Black, ivory and gold only. Tokens are CSS vars such as `--ivory`, `--ivory-muted`, `--gold`, `--ash` and `--rule`.
+  - Explicit user-requested exception: Family Feud's incorrect-answer cross is red. Press X to show it and play the embedded Family Feud buzzer recording; the cross lasts for the clip (about 2.4 seconds). Esc dismisses it and stops playback. M mutes the buzzer with the rest of the deck. It does not change the question or revealed answers, and its timeout and audio are cleaned up on scene changes. `FEUD_BUZZER_DATA` contains the MP3; source attribution is in README.
+  - Family Feud shows only the current question number on stage. Never show the total question count: it is a surprise for the audience.
 - **Flat.** No glows, shadows or gradients-as-decoration. Motion comes from **dither** (Bayer 8×8 on a cell grid) and **split-flap** tiles.
 - **Must not look AI-generated or "vibecoded".** The owner has rejected all of these:
   - Small-caps "eyebrow" labels above headings.
@@ -71,13 +73,14 @@ The show has no build step, no dependencies and no framework: plain ES5-style Ja
   6. Jamband, set 1
   7. R12 Game One (15 min)
   8. Lucky Draw Round 1 (prizes 10→6)
-  9. R12 Game Two (20 min)
+  9. Family Feud / R12 Game Two (20 min opening timer, then 10 question boards with three answers each)
   10. Montage (video)
   11. Lucky Draw Round 2 (prizes 5→1)
   12. Graduation Speech
   13. Jamband Finale, set 2
   14. Final ("Last Call")
   15. End
+- **Family Feud:** the second game stays at scene index 8, so existing saved scene indices remain valid. Its step 0 is the original timer; steps 1–40 are 10 boards with four states each (covered, one, two or three answers revealed). `S.feud` stores editable question text, three answers and optional point values. `FEUD_DEFAULT` contains the organiser’s ten questions and thirty answers. Old saved placeholder text is replaced by these defaults on load; existing custom text and points are preserved. The question count is derived from `FEUD_DEFAULT.length`. `feudAt()` maps a step to a question; `pos.f` stores the three-bit answer reveal mask for out-of-order reveals. `feudBoard` owns only the current board and is cleared through `onClean`. Answers use the existing `Flaps` engine. Setup (`S`) edits all 10 questions; `1`/`2`/`3` or a row click toggles a specific answer, and Shift + arrow skips a question. `?game=2&question=1` opens the full show at the first board; `?deck=family-feud&question=1` shows only the 10 boards. Both views share question data and keep separate positions.
 - **The lucky draw** takes 3 steps per prize: sealed → reveal (`revealItem`) → draw (`runDraw`). The draw is a split-flap name spin. Picks use `crypto.getRandomValues`, and winners are excluded from later draws (`pool()`). A results board follows the last prize.
 - **The closing scene** comes from `ENDS[TUNE.end]`; there are 10 treatments in `END_LIST`.
   - The chosen one is **`runway`**: flight **REP12** to **FUTURE**, `runGate` then `runwayPainter`.
